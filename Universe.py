@@ -17,93 +17,104 @@ from Enums import *
 class Universe:
 
     def __init__(self, _space):
-        self.space      = _space
+        self.space = _space
 
 
     def update(self):
 
-        positions = self.space.get_all_cellPositions()
-        self.update_cellTransistions( positions )
-        self.update_cellStates( positions )
+        coords = self.space.get_all_cellCoords()
+        self.update_cellTransistions( coords )
+        self.update_cellTypes( coords )
 
 
-    def update_cellTransistions(self, _positions):
+    def update_cellTransistions(self, _coords):
 
-        for position in _positions:
-            self.space.update_cellTransition( position )
-
-
-    def update_cellStates(self, _positions):
-
-        for position in _positions:
-            self.space.update_cellState( position )
+        for coord in _coords:
+            cell = self.space.getCell( coord )
+            cell.update_transition()
 
 
-    def create_LiveCell_if_Pos_is_Void_or_Dead(self, _pos=(0+0j)):
+    def update_cellTypes(self, _coords):
 
-        cellState = self.space.getCellType( _pos )
-
-        if (None == cellState or CellType.DEAD == cellState):
-            newCell = cl.LiveCell( self, _pos)
-            self.space.place( newCell )
+        for coord in _coords:
+            cell = self.space.getCell( coord )
+            cell.update_type()
 
 
-    def create_DeadCell_at_Pos(self, _pos=(0+0j)):
+    def create_LiveCell_if_Coord_is_Void_or_Dead(self, _coord=(0+0j)):
 
-        newDeadCell = cl.DeadCell( self, _pos)
-        self.space.place( newDeadCell )
+        cellType = self.getCellType( _coord )
+
+        if (None == cellType or CellType.DEAD == cellType):
+            newCell = cl.LiveCell( self, _coord)
+            self.space.placeCell( newCell )
+
+
+    def create_DeadCell_at_Coord(self, _coord=(0+0j)):
+
+        newDeadCell = cl.DeadCell( self, _coord)
+        self.space.placeCell( newDeadCell )
 
 
     def flipCellType(self, _cell):
 
-        cellType = _cell.getCellType()
-        cellPos  = _cell.getPos()
+        cellType  = _cell.getCellType()
+        cellCoord = _cell.getCellCoord()
 
         if CellType.DEAD == cellType:
-            newCell = cl.LiveCell( self, cellPos)
+            newCell = cl.LiveCell( self, cellCoord)
 
         elif CellType.LIVE == cellType:
-            newCell = cl.DeadCell( self, cellPos)
+            newCell = cl.DeadCell( self, cellCoord)
 
-        self.space.place( newCell )
-
-
-    def getCellType(self, _pos):
-        return self.space.getCellType( _pos )
+        self.space.placeCell( newCell )
 
 
-    def getCellTransition(self, _pos):
-        return self.space.getCellTransition( _pos )
+    def getCellType(self, _coord):
 
-    def removeCell(self, _pos):
-        self.space.remove( _pos )
+        cell = self.space.getCell( _coord )
+
+        if cell:
+            return cell.getCellType()
+        else:
+            return None # None means coord is not occupied
 
 
-    def getSpatialDirections(self):
-        return self.space.spatialDirections
+    def getCellTransition(self, _coord):
+
+        cell = self.space.getCell( _coord )
+
+        if cell:
+            return cell.getCellTransition()
+        else:
+            return None # None means coord is not occupied
 
 
-    def getCellPositionsOf(self, _type):
+    def removeCell(self, _coord):
+        self.space.removeCell( _coord )
 
-        all_positions = self.space.get_all_cellPositions()
+
+    def get_CellPositions_of_type_or_all(self, _type):
+
+        all_coords = self.space.get_all_cellCoords()
 
         if (CellType.LIVE == _type or CellType.DEAD == _type):
-            return self.filteredCellType( all_positions, _type )
+            return self.filteredCellType( all_coords, _type )
 
         else:
-            return all_positions
+            return all_coords
 
 
-    def filteredCellType(self, _all_positions, _type):
+    def filteredCellType(self, _all_coords, _type):
 
-        filtered_positions = []
-        for position in _all_positions:
+        filtered_coords = []
+        for coord in _all_coords:
 
-            state = self.space.getCellType( position )
-            if state == _type:
-                filtered_positions.append( position )
+            cellType = self.getCellType( coord )
+            if cellType == _type:
+                filtered_coords.append( coord )
 
-        return filtered_positions
+        return filtered_coords
 
 
 ''' END '''

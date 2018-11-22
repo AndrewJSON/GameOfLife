@@ -15,17 +15,17 @@ from Enums import *
 
 class Cell:
 
-    def __init__(self, _universe, _pos, _state):
+    def __init__(self, _universe, _coord, _state):
 
         self.universe      = _universe
-        self.pos           = _pos
-        self.type         = _state
+        self.coord         = _coord
+        self.type          = _state
         self.transition    = CellTransition.NONE
         self.lifeNeighbors = 0
 
 
-    def getPos(self):
-        return self.pos
+    def getCellCoord(self):
+        return self.coord
 
 
     def getCellType(self):
@@ -40,14 +40,14 @@ class Cell:
 
         self.lifeNeighbors = 0
 
-        for spatialDirection in self.universe.getSpatialDirections():
+        for spatialDirection in directions: # from Enums.py
             self.sum_up_if_Neighbor_is_Live( spatialDirection )
 
 
     def sum_up_if_Neighbor_is_Live(self, _spatialDirection):
 
-        neighborCoords = self.pos + _spatialDirection
-        neighborState = self.universe.getCellType( neighborCoords )
+        neighborCoord = self.coord + _spatialDirection
+        neighborState = self.universe.getCellType( neighborCoord )
 
         if CellType.LIVE == neighborState:
             self.lifeNeighbors += 1
@@ -58,7 +58,7 @@ class Cell:
         if CellType.DEAD == self.type:
             return
 
-        print("Pos:", self.pos,
+        print("Pos:", self.coord,
               "\tType:", self.type,
               "\tNeighbors:", self.lifeNeighbors,
               "\tCaller:", _caller)
@@ -68,27 +68,27 @@ class Cell:
 
 class LiveCell(Cell):
 
-    def __init__(self, _universe, _pos):
+    def __init__(self, _universe, _coord):
 
-        Cell.__init__(self, _universe, _pos, CellType.LIVE)
+        Cell.__init__(self, _universe, _coord, CellType.LIVE)
         self.create_surrounding_DeadCells()
 
 
     def create_surrounding_DeadCells(self):
 
-        for spatialDirection in self.universe.getSpatialDirections():
+        for spatialDirection in directions: # from Enums.py
 
-            neighborCoords = self.pos + spatialDirection
-            self.create_DeadCell_if_Pos_is_Void_or_Terminate( neighborCoords )
+            neighborCoord = self.coord + spatialDirection
+            self.create_DeadCell_if_Pos_is_Void_or_Terminate( neighborCoord )
 
 
-    def create_DeadCell_if_Pos_is_Void_or_Terminate(self, _pos):
+    def create_DeadCell_if_Pos_is_Void_or_Terminate(self, _coord):
 
-        neighborTransition = self.universe.getCellTransition( _pos )
+        neighborTransition = self.universe.getCellTransition( _coord )
 
         if ( None == neighborTransition or
              CellTransition.TERMINATE == neighborTransition):
-            self.universe.create_DeadCell_at_Pos( _pos )
+            self.universe.create_DeadCell_at_Coord( _coord )
 
 
     def update_transition(self):
@@ -103,7 +103,7 @@ class LiveCell(Cell):
             self.transition = CellTransition.NONE              # Conway Rule 3
 
 
-    def update_state(self):
+    def update_type(self):
 
         if CellTransition.DYING == self.transition:
             self.death()
@@ -117,8 +117,8 @@ class LiveCell(Cell):
 
 class DeadCell(Cell):
 
-    def __init__(self, _universe, _pos):
-        Cell.__init__(self, _universe, _pos, CellType.DEAD)
+    def __init__(self, _universe, _coord):
+        Cell.__init__(self, _universe, _coord, CellType.DEAD)
 
 
     def update_transition(self):
@@ -136,7 +136,7 @@ class DeadCell(Cell):
             self.transition = CellTransition.NONE
 
 
-    def update_state(self):
+    def update_type(self):
 
         if   CellTransition.EMERGENT  == self.transition:
             self.birth()
@@ -150,7 +150,7 @@ class DeadCell(Cell):
 
 
     def terminate(self):
-        self.universe.removeCell( self.pos )
+        self.universe.removeCell( self.coord )
 
 
 ''' END '''

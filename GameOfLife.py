@@ -10,10 +10,10 @@
  *   xxx
 '''
 
-import Universe as un
-import Space    as sp
-import Reality  as rt
-import Patterns as pt
+import Universe     as un
+import ClusterSpace as sp
+import Reality      as rt
+import Patterns     as pt
 from Enums import *
 
 import matplotlib.pyplot as plt
@@ -30,7 +30,7 @@ def add_offset_to_positions( _pos, _offset ):
 
 if __name__ == '__main__':
 
-    mySpace    = sp.Space()
+    mySpace    = sp.ClusterSpace()
     myUniverse = un.Universe(mySpace)
     myReality  = rt.Reality()
 
@@ -38,7 +38,7 @@ if __name__ == '__main__':
 
     print("Initial live cells:")
     for cell in offsetPattern:
-        myUniverse.create_LiveCell_if_Pos_is_Void_or_Dead( cell )
+        myUniverse.create_LiveCell_if_Coord_is_Void_or_Dead( cell )
         print( cell)
 
     #lives = myUniverse.getLivePositions()
@@ -50,10 +50,10 @@ if __name__ == '__main__':
         print("Generation", i)
         myUniverse.update()
 
-        lives = myUniverse.getCellPositionsOf( CellType.LIVE )
-        whiteSpaces = myUniverse.getCellPositionsOf( CellType.DEAD )
+        lives = myUniverse.get_CellPositions_of_type_or_all( CellType.LIVE )
+        deads = myUniverse.get_CellPositions_of_type_or_all( CellType.DEAD )
         #myReality.plotMatrix( lives )
-        myReality.plot_distinct_cells( lives, whiteSpaces )
+        myReality.plot_distinct_cells( lives, deads )
 
     plt.show()
     #myReality.separated_coords_as_lists( lives )
