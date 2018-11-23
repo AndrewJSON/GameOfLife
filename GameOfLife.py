@@ -29,7 +29,7 @@ def add_offset_to_positions( _pos, _offset ):
 
     return offsetPositions
 
-USE_CLUSTER_SPACE = False
+USE_CLUSTER_SPACE = True
 
 if __name__ == '__main__':
 

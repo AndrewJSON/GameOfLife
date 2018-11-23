@@ -78,16 +78,25 @@ class LiveCell(Cell):
         for spatialDirection in directions: # from Enums.py
 
             neighborCoord = self.coord + spatialDirection
-            self.create_DeadCell_if_Pos_is_Void_or_Terminate( neighborCoord )
+            self.create_DeadCell_or_avert_termination( neighborCoord )
 
 
-    def create_DeadCell_if_Pos_is_Void_or_Terminate(self, _coord):
+    def create_DeadCell_or_avert_termination(self, _coord):
 
-        neighborTransition = self.universe.getCellTransition( _coord )
+        neighborCell = self.universe.getCell( _coord )
 
-        if ( None == neighborTransition or
-             CellTransition.TERMINATE == neighborTransition):
+        if not neighborCell:
             self.universe.create_DeadCell_at_Coord( _coord )
+        else:
+            self.avert_termination_if_scheduled( neighborCell )
+
+
+    def avert_termination_if_scheduled(self, _neighborCell):
+
+        neighborTransition = _neighborCell.getCellTransition()
+
+        if ( CellTransition.TERMINATE == neighborTransition ):
+            _neighborCell.avert_termination()
 
 
     def update_transition(self):
@@ -142,6 +151,10 @@ class DeadCell(Cell):
 
         elif CellTransition.TERMINATE == self.transition:
             self.terminate()
+
+
+    def avert_termination(self):
+        self.transition = CellTransition.NONE
 
 
     def birth(self):

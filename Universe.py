@@ -49,6 +49,10 @@ class Universe:
             self.space.placeCell( newCell )
 
 
+    def getCell(self, _coord):
+        return self.space.getCell( _coord)
+
+
     def create_DeadCell_at_Coord(self, _coord=(0+0j)):
 
         newDeadCell = cl.DeadCell( self, _coord)
