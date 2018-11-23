@@ -46,10 +46,20 @@ class Cell:
     def sum_up_if_Neighbor_is_Live(self, _spatialDirection):
 
         neighborCoord = self.coord + _spatialDirection
-        neighborState = self.universe.getCellType( neighborCoord )
+        neighborType = self.getNeighborType( neighborCoord )
 
-        if CellType.LIVE == neighborState:
+        if CellType.LIVE == neighborType:
             self.lifeNeighbors += 1
+
+
+    def getNeighborType(self, _coord):
+
+        cell = self.universe.getCell( _coord )
+
+        if cell:
+            return cell.getCellType()
+        else:
+            return None # None means coord is not occupied
 
 
     def debugPlot(self, _caller=""):
@@ -153,16 +163,16 @@ class DeadCell(Cell):
             self.terminate()
 
 
-    def avert_termination(self):
-        self.transition = CellTransition.NONE
-
-
     def birth(self):
         self.universe.flipCellType( self )
 
 
     def terminate(self):
         self.universe.removeCell( self.coord )
+
+
+    def avert_termination(self):
+        self.transition = CellTransition.NONE
 
 
 ''' END '''
