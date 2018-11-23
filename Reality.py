@@ -54,7 +54,7 @@ class Reality:
         a[x,y] = z
 
         plt.imshow(a)
-        plt.pause(1.0)
+        plt.pause(0.5)  # time per frame
 
 
     def plotMatrix(self, _positions):

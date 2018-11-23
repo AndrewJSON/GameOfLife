@@ -3,7 +3,6 @@
  * Cell.py
  *
  *   Created on:         09.11.2018
- *   last modified on:   -
  *   Author:             Andrew Jason Bishop
  * 
  * General description:

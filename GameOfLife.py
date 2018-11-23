@@ -3,7 +3,6 @@
  * GameOfLife.py
  *
  *   Created on:         10.11.2018
- *   last modified on:   -
  *   Author:             Andrew Jason Bishop
  * 
  * General description:
@@ -11,7 +10,8 @@
 '''
 
 import Universe     as un
-import ClusterSpace as sp
+import ClusterSpace as cs
+import SpaceCluster as sc
 import Reality      as rt
 import Patterns     as pt
 from Enums import *
@@ -20,6 +20,8 @@ import matplotlib.pyplot as plt
 
 
 def add_offset_to_positions( _pos, _offset ):
+    # Since an 2D array is used for matplotlib graphics, ...
+    # ... coords must not be negative.
 
     offsetPositions = []
     for pos in _pos:
@@ -27,10 +29,15 @@ def add_offset_to_positions( _pos, _offset ):
 
     return offsetPositions
 
+USE_CLUSTER_SPACE = False
 
 if __name__ == '__main__':
 
-    mySpace    = sp.ClusterSpace()
+    if USE_CLUSTER_SPACE:
+        mySpace    = cs.ClusterSpace()
+    else:
+        mySpace    = sc.SpaceCluster()
+
     myUniverse = un.Universe(mySpace)
     myReality  = rt.Reality()
 

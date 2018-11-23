@@ -3,7 +3,6 @@
  * Space.py
  *
  *   Created on:         10.11.2018
- *   last modified on:   -
  *   Author:             Andrew Jason Bishop
  * 
  * General description:
