@@ -5,13 +5,15 @@
  *   Created on:         13.11.2018
  *   last modified on:   -
  *   Author:             Andrew Jason Bishop
- * "Ricksy Business""Ricksy Business""Ricksy Business""Ricksy Business"Ricksy Business""
+ *
  * General description:
  *   xxx
 '''
 
 import matplotlib.pyplot as plt
 import numpy as np
+
+import tkinter as tk
 
 
 class Reality:
@@ -96,6 +98,8 @@ class Reality:
         plt.show()
 
 
+
+
 '''
 plt.axis([0, 10, 0, 1])
 
@@ -111,10 +115,18 @@ Note some of the changes:
     Call plt.pause(0.05) to both draw the new data and it runs the GUI's event loop (allowing for mouse interaction).
 '''
 
+
+def do_fuck(_parent):
+    _parent.geometry("300x200")
+    _parent.title("does fuck")
+    myLabel = tk.Label(_parent, text="my big outie belly button")
+    myLabel.pack()
+
 if __name__ == '__main__':
 
-    myReality  = Reality()
-    myReality.demos()
+    top = tk.Tk()
+    do_fuck(top)
+    top.mainloop()
 
 
 ''' END '''
