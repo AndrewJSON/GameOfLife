@@ -125,12 +125,12 @@ def do_fuck(_parent):
 
 def make_Frames_and_Buttons(_parent):
     topFrame = tk.Frame(_parent)
-    topFrame.pack()
+    topFrame.pack(fill=tk.X)
     botFrame = tk.Frame(_parent)
     botFrame.pack(side=tk.BOTTOM)
 
     outieBellyButton1 = tk.Button(topFrame, text="outie1", fg=col.gn)
-    outieBellyButton1.pack()
+    outieBellyButton1.pack(fill=tk.X)
 
     outieBellyButton = tk.Button(botFrame, text="outie2", fg=col.gn)
     outieBellyButton.pack()
