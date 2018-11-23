@@ -83,16 +83,6 @@ class Universe:
             return None # None means coord is not occupied
 
 
-    def getCellTransition(self, _coord):
-
-        cell = self.space.getCell( _coord )
-
-        if cell:
-            return cell.getCellTransition()
-        else:
-            return None # None means coord is not occupied
-
-
     def removeCell(self, _coord):
         self.space.removeCell( _coord )
 
