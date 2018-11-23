@@ -14,11 +14,11 @@ from Enums import *
 
 class Cell:
 
-    def __init__(self, _universe, _coord, _state):
+    def __init__(self, _universe, _coord, _type):
 
         self.universe      = _universe
         self.coord         = _coord
-        self.type          = _state
+        self.type          = _type
         self.transition    = CellTransition.NONE
         self.lifeNeighbors = 0
 
@@ -111,7 +111,7 @@ class LiveCell(Cell):
             self.transition = CellTransition.NONE              # Conway Rule 3
 
 
-    def update_type(self):
+    def perform_transition(self):
 
         if CellTransition.DYING == self.transition:
             self.death()
@@ -144,7 +144,7 @@ class DeadCell(Cell):
             self.transition = CellTransition.NONE
 
 
-    def update_type(self):
+    def perform_transition(self):
 
         if   CellTransition.EMERGENT  == self.transition:
             self.birth()
