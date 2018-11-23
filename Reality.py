@@ -14,6 +14,7 @@ import matplotlib.pyplot as plt
 import numpy as np
 
 import tkinter as tk
+import colors as col
 
 
 class Reality:
@@ -122,10 +123,25 @@ def do_fuck(_parent):
     myLabel = tk.Label(_parent, text="my big outie belly button")
     myLabel.pack()
 
+def make_Frames_and_Buttons(_parent):
+    topFrame = tk.Frame(_parent)
+    topFrame.pack()
+    botFrame = tk.Frame(_parent)
+    botFrame.pack(side=tk.BOTTOM)
+
+    outieBellyButton1 = tk.Button(topFrame, text="outie1", fg=col.gn)
+    outieBellyButton1.pack()
+
+    outieBellyButton = tk.Button(botFrame, text="outie2", fg=col.gn)
+    outieBellyButton.pack()
+
 if __name__ == '__main__':
 
     top = tk.Tk()
-    do_fuck(top)
+    top.geometry("300x200")
+    #do_fuck(top)
+    make_Frames_and_Buttons(top)
+    #top.grid()
     top.mainloop()
 
 
