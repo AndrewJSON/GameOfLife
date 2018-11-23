@@ -46,9 +46,9 @@ class Cell:
     def sum_up_if_Neighbor_is_Live(self, _spatialDirection):
 
         neighborCoord = self.coord + _spatialDirection
-        neighborState = self.universe.getCellType( neighborCoord )
+        neighborType = self.universe.getCellType( neighborCoord )
 
-        if CellType.LIVE == neighborState:
+        if CellType.LIVE == neighborType:
             self.lifeNeighbors += 1
 
 

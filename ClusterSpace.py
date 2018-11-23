@@ -41,13 +41,22 @@ class ClusterSpace:
         self.updateClusterCoords()
 
         for clusterCoord in self.clusterCoords:
-            cellCoords = self.get_all_CellCoords_from_Cluster( clusterCoord )
-            print("cluster:", clusterCoord, "\ncells:", cellCoords)
-            self.cellCoords += cellCoords
+            self.append_coords_or_delete_empty_cluster( clusterCoord )
 
 
     def updateClusterCoords(self):
         self.clusterCoords = list( self.spaceClusters.keys() )
+
+
+    def append_coords_or_delete_empty_cluster(self, _clusterCoord):
+
+        cellCoords = self.get_all_CellCoords_from_Cluster( _clusterCoord )
+        print("cluster:", _clusterCoord, "\ncells:", cellCoords)
+
+        if len( cellCoords ):
+             self.cellCoords += cellCoords
+        else:
+            self.remove_Cluster( _clusterCoord )
 
 
     def get_all_CellCoords_from_Cluster(self, _clusterCoord):
@@ -119,28 +128,10 @@ class ClusterSpace:
         return (_clusterCoord in self.spaceClusters)
 
 
-    def remove_empty_Clusters(self, _pos):
-
-        self.updateClusterCoords()
-
-        for clusterCoord in self.clusterCoords:
-
-            isEmpty = self.SpaceClusters[clusterCoord].isClusterEmpty()
-            if isEmpty:
-                self.remove_Cluster( clusterCoord )
-
-
-    def remove_empty_Clustes(self, _clusterCoord):
-
-        isEmpty = self.SpaceClusters[_clusterCoord].isClusterEmpty()
-        if isEmpty:
-            self.remove_Cluster( clusterCoord )
-
-
-
     def remove_Cluster(self, _coord):
 
         try:
+            print("***removing cluster", _coord)
             del self.spaceClusters[_coord]
         except:
             print("No cluster to delete")
