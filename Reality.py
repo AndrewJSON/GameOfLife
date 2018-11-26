@@ -1,6 +1,6 @@
 
 ''' 
- * Universe.py
+ * Reality.py
  *
  *   Created on:         13.11.2018
  *   last modified on:   -
@@ -120,27 +120,27 @@ Note some of the changes:
 def do_fuck(_parent):
     _parent.geometry("300x200")
     _parent.title("does fuck")
-    myLabel = tk.Label(_parent, text="my big outie belly button")
+    myLabel = tk.Label(_parent, text="my fuck label")
     myLabel.pack()
 
-def make_Frames_and_Buttons(_parent):
-    topFrame = tk.Frame(_parent)
-    topFrame.pack(fill=tk.X)
-    botFrame = tk.Frame(_parent)
-    botFrame.pack(side=tk.BOTTOM)
 
-    outieBellyButton1 = tk.Button(topFrame, text="outie1", fg=col.gn)
-    outieBellyButton1.pack(fill=tk.X)
+def draw_stuff(_parent):
 
-    outieBellyButton = tk.Button(botFrame, text="outie2", fg=col.gn)
-    outieBellyButton.pack()
+    canvas = tk.Canvas(_parent, width=200, height=100)
+    canvas.pack()
+
+    bline = canvas.create_line(0,0,200,50, fill=col.gn)
+    rline = canvas.create_line(0,100,200,50, fill=col.rt)
+    rt = canvas.create_rectangle(25,25, 130 , 60, fill=col.gn)
+
 
 if __name__ == '__main__':
+
 
     top = tk.Tk()
     top.geometry("300x200")
     #do_fuck(top)
-    make_Frames_and_Buttons(top)
+    draw_stuff(top)
     #top.grid()
     top.mainloop()
 
