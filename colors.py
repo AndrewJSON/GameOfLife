@@ -19,6 +19,7 @@ gn = gn = '#628131'     # my green (or 87A752)
 bl = bu = '#224E56'     # my blue
 vi = vt = '#FF00FF'     #    violet
 gr = gy = '#3B3B3E'     # my grey
+gr2=gy2 = '#555753'
 ws = wh = '#FFFFFF'     #    white
 rs = pk = '#FF80FF'     #    pink
 TK = TK = '#00FFFF'     #    turquoise

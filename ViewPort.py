@@ -18,11 +18,12 @@ import colors as col
 
 class ViewPort(tk.Canvas):
 
-    def __init__(self, _parent):
+    def __init__(self, _parent, _universe):
 
         super().__init__( _parent )
 
         self.parent             = _parent
+        self.universe           = _universe
         self.centerPortCoord    = (0+0j)
         self.halfPortCoordRange = (8+8j)
         self.cellWidth_px       = 24
@@ -61,15 +62,18 @@ class ViewPort(tk.Canvas):
 
     def update_portCell(self, _portCoord):
 
-        cellCoord = (0+0j) #self.portCoord_to_cellCoord( _portCoord )
-        cellType = True #self.parent.getcellType( cellCoord )
+        cellCoord = self.portCoord_to_cellCoord( _portCoord )
+        cellType = self.universe.getCellType( cellCoord )
 
         if cellType:
+            print("Port Coord", _portCoord,
+                  "Cell Coord:", cellCoord,
+                  "Type", cellType)
             self.draw_portCell( cellType, _portCoord )
 
 
     def portCoord_to_cellCoord(self, _portCoord):
-        return ( self.centerPortCoord - self.half_PortCoordRange + _portCoord )
+        return ( self.centerPortCoord - self.halfPortCoordRange + _portCoord )
 
 
     def draw_portCell(self, _cellType, _portCoord):
@@ -83,7 +87,7 @@ class ViewPort(tk.Canvas):
     def determine_fillColor(self, _cellType):
 
         if (CellType.DEAD == _cellType):
-            return col.gy
+            return col.gy2
         else:
             return col.gn
 
