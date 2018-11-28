@@ -10,6 +10,8 @@
  *   xxx
 '''
 
+from Enums import *
+
 import tkinter as tk
 import colors as col
 
@@ -72,23 +74,31 @@ class ViewPort(tk.Canvas):
 
     def draw_portCell(self, _cellType, _portCoord):
 
-        # TODO next 5 lines in subroutine
+        fillCol  = self.determine_fillColor( _cellType )
+        pxCoords = self.calculate_pxCoords( _portCoord )
+        self.create_rectangle(  pxCoords, 
+                                fill = fillCol,
+                                width=0)        # no border
+
+    def determine_fillColor(self, _cellType):
+
+        if (CellType.DEAD == _cellType):
+            return col.gy
+        else:
+            return col.gn
+
+
+    def calculate_pxCoords(self, _portCoord):
+
         cw = self.cellWidth_px
         cm = self.cellMargin_px
 
         upperLeft_corner_px = _portCoord * (cw+cm) + (cm+cm*1j)
-        x0 = upperLeft_corner_px.real
-        y0 = upperLeft_corner_px.imag
-        x1 = x0+cw #-cm
-        y1 = y0+cw
-        print(x0,y0, _portCoord.real, _portCoord.imag)
 
-        # TODO eval fill depending on state in subroutine
-        fcol = col.gn
-        self.create_rectangle(  x0, y0, x1, y1, 
-                                fill = fcol,
-                                outline=col.rt,
-                                width=0)
+        x0 = upperLeft_corner_px.real; y0 = upperLeft_corner_px.imag
+        x1 = x0+cw; y1 = y0+cw
+
+        return (x0, y0, x1, y1)
 
 
 if __name__ == '__main__':
