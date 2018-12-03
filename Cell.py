@@ -102,7 +102,7 @@ class LiveCell(Cell):
     def update_transition(self):
 
         self.eval_Number_of_Life_Neighbors()
-        self.debugPlot("update_transition")
+        #self.debugPlot("update_transition")
 
         if (2 > self.lifeNeighbors or 3 < self.lifeNeighbors): # Conway Rule 2&4
             self.transition = CellTransition.DYING
@@ -132,7 +132,7 @@ class DeadCell(Cell):
     def update_transition(self):
 
         self.eval_Number_of_Life_Neighbors()
-        self.debugPlot("update_transition")
+        #self.debugPlot("update_transition")
 
         if   3 == self.lifeNeighbors :                         # Conway Rule 1
             self.transition = CellTransition.EMERGENT

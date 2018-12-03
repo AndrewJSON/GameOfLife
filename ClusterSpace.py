@@ -51,7 +51,7 @@ class ClusterSpace:
     def append_coords_or_delete_empty_cluster(self, _clusterCoord):
 
         cellCoords = self.get_all_CellCoords_from_Cluster( _clusterCoord )
-        print("cluster:", _clusterCoord, "\ncells:", cellCoords)
+        #print("cluster:", _clusterCoord, "\ncells:", cellCoords)
 
         if len( cellCoords ):
              self.cellCoords += cellCoords
@@ -87,7 +87,7 @@ class ClusterSpace:
         if self.isClusterPresent( clusterCoord ):
             return self.spaceClusters[clusterCoord].isCellCoordOccupied( _cellCoord )
         else:
-            print("cluster not present")
+            #print("cluster not present")
             return False
 
 
@@ -99,7 +99,7 @@ class ClusterSpace:
             return self.spaceClusters[clusterCoord].getCell( _cellCoord )
 
         else:
-            print("cluster not present")
+            #print("cluster not present")
             return None
 
 

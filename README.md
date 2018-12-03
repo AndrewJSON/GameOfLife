@@ -10,6 +10,10 @@
 This is an implementation of Conways Game of Life in Python3 using the
 traditional four conway rules.
 
+And yes, it can be implementet in less than 50 lines of code. But for me it is
+also a coding exercise, ciefly focusing on code structure, modularity and
+reusable code.
+
 The cells are stored in a single or multiple dictionaries. By using
 dictionaries the space is basically a sparse matrix and has no borders.
 If ClusterSpace.py is used, the cell are spread among several SpaceClusters,
