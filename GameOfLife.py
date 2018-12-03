@@ -16,7 +16,7 @@ import Reality      as rt
 import Patterns     as pt
 from Enums import *
 
-import matplotlib.pyplot as plt
+#import matplotlib.pyplot as plt
 
 
 USE_CLUSTER_SPACE = True
@@ -32,12 +32,13 @@ if __name__ == '__main__':
     myReality  = rt.Reality( myUniverse )
 
     print("Initial live cells:")
-    for cell in pt.glider:
+    #for cell in pt.glider: #
+    for cell in pt.collider:
         myUniverse.create_LiveCell_if_Coord_is_Void_or_Dead( cell )
         print( cell)
 
     
-    myReality.update(40)
+    myReality.update(32)
 
 
 
