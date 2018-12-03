@@ -23,7 +23,7 @@ class Universe:
 
         coords = self.space.get_all_cellCoords()
         self.update_cellTransistions( coords )
-        self.perform_cellTransitions( coords )
+        self.update_cellTypes( coords )
 
 
     def update_cellTransistions(self, _coords):
@@ -33,11 +33,11 @@ class Universe:
             cell.update_transition()
 
 
-    def perform_cellTransitions(self, _coords):
+    def update_cellTypes(self, _coords):
 
         for coord in _coords:
             cell = self.space.getCell( coord )
-            cell.perform_transition()
+            cell.update_type()
 
 
     def create_LiveCell_if_Coord_is_Void_or_Dead(self, _coord=(0+0j)):

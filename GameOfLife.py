@@ -21,6 +21,15 @@ from Enums import *
 
 USE_CLUSTER_SPACE = True
 
+def init_with_pattern(_pattern):
+
+    print("Initial live cells:")
+
+    for cell in _pattern:
+        myUniverse.create_LiveCell_if_Coord_is_Void_or_Dead( cell )
+        print( cell)
+
+
 if __name__ == '__main__':
 
     if USE_CLUSTER_SPACE:
@@ -31,14 +40,10 @@ if __name__ == '__main__':
     myUniverse = un.Universe( mySpace )
     myReality  = rt.Reality( myUniverse )
 
-    print("Initial live cells:")
-    #for cell in pt.glider: #
-    for cell in pt.collider:
-        myUniverse.create_LiveCell_if_Coord_is_Void_or_Dead( cell )
-        print( cell)
+    init_with_pattern( pt.stabil )
 
-    
-    myReality.update(32)
+    #myReality.initPhase()    
+    myReality.update(24)
 
 
 

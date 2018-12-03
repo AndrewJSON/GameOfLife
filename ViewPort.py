@@ -13,17 +13,19 @@
 from Enums import *
 
 import tkinter as tk
-import colors as col
+import colors  as col
+import numpy   as np
 
 
 class ViewPort(tk.Canvas):
 
-    def __init__(self, _parent, _universe):
+    def __init__(self, _parent, _universe, _reality):
 
         super().__init__( _parent )
 
         self.parent             = _parent
         self.universe           = _universe
+        self.reality            = _reality
         self.centerPortCoord    = (0+0j)
         self.halfPortCoordRange = (8+8j)
         self.cellWidth_px       = 24
@@ -33,6 +35,7 @@ class ViewPort(tk.Canvas):
         self.y_limit = 17
 
         self.setSize()
+        self.bind("<Button-1>", self.eventHandler)
 
 
     def setSize(self):
@@ -64,6 +67,7 @@ class ViewPort(tk.Canvas):
 
         cellCoord = self.portCoord_to_cellCoord( _portCoord )
         cellType = self.universe.getCellType( cellCoord )
+        # TODO make replace universe reference with reality
 
         if cellType:
             print("Port Coord", _portCoord,
@@ -103,6 +107,28 @@ class ViewPort(tk.Canvas):
         x1 = x0+cw; y1 = y0+cw
 
         return (x0, y0, x1, y1)
+
+
+    def eventHandler(self, _event):
+
+        pxCoord = (_event.x, _event.y)
+        portCoord = self.pxCoord_to_portCoord( pxCoord )
+        cellCoord = self.portCoord_to_cellCoord( portCoord )
+        print("port coord:", portCoord, ", cell coord:", cellCoord, "\n")
+
+        #TODO make parent to reality
+        self.reality.create_liveCell( cellCoord )
+
+
+    def pxCoord_to_portCoord(self, _pxCoord):
+
+        cw = self.cellWidth_px
+        cm = self.cellMargin_px
+        
+        port_x = np.floor( _pxCoord[0] / (cw + cm) )
+        port_y = np.floor( _pxCoord[1] / (cw + cm) )
+
+        return complex(port_x, port_y)
 
 
 if __name__ == '__main__':

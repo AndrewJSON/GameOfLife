@@ -64,5 +64,16 @@ class SpaceCluster:
         self.cellSpace[ cellCoord ] = _cell
 
 
+    def isClusterEmpty(self):
+
+        self.update_CellCoords()
+        number_of_cells = len( self.cellCoords )
+
+        if 0 >= number_of_cells:
+            return True
+        else:
+            return False
+        
+
 ''' END '''
 
