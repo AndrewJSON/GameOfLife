@@ -36,6 +36,7 @@ class ViewPort(tk.Canvas):
 
         self.setSize()
         self.bind("<Button-1>", self.eventHandler)
+        self.bind("<Button-3>", self.switchState)
 
 
     def setSize(self):
@@ -111,13 +112,19 @@ class ViewPort(tk.Canvas):
 
     def eventHandler(self, _event):
 
-        pxCoord = (_event.x, _event.y)
-        portCoord = self.pxCoord_to_portCoord( pxCoord )
-        cellCoord = self.portCoord_to_cellCoord( portCoord )
-        print("port coord:", portCoord, ", cell coord:", cellCoord, "\n")
+        if self.reality.IS_EDIT_STATE:
+            pxCoord = (_event.x, _event.y)
+            portCoord = self.pxCoord_to_portCoord( pxCoord )
+            cellCoord = self.portCoord_to_cellCoord( portCoord )
+            print("port coord:", portCoord, ", cell coord:", cellCoord, "\n")
 
-        #TODO make parent to reality
-        self.reality.create_liveCell( cellCoord )
+            self.reality.create_liveCell( cellCoord )
+            self.update_viewPort()
+
+
+    def switchState(self, event):
+        print("Switch State")
+        self.reality.IS_EDIT_STATE = not self.reality.IS_EDIT_STATE
 
 
     def pxCoord_to_portCoord(self, _pxCoord):

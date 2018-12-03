@@ -42,8 +42,9 @@ if __name__ == '__main__':
 
     init_with_pattern( pt.stabil )
 
-    #myReality.initPhase()    
-    myReality.update(24)
+    myReality.runPhase()
+    #myReality.initPhase()
+    #myReality.update(24)
 
 
 

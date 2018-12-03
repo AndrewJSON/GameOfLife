@@ -28,15 +28,29 @@ class Reality:
         self.top.title( "Game of Life" )
         self.viewPort = vp.ViewPort( self.top, _universe, self )
         self.viewPort.pack()
+        self.IS_EDIT_STATE = False
 
-        self.IS_INIT_STATE = False
+    def editPhase(self):
+
+        while (self.IS_EDIT_STATE):
+            #pass
+            self.update_ViewPort()
+            self.top.after(100)
+            #for i in range(0,10):
+            #    print("edit phase")
+
+        self.runPhase()
 
 
-    def initPhase(self):
+    def runPhase(self):
 
-        self.IS_INIT_STATE = True
-        #self.bindEvents()
-        self.top.mainloop()
+        while( not self.IS_EDIT_STATE ):
+
+            self.top.after(500)
+            self.update_ViewPort()
+            self.universe.update()
+
+        self.editPhase()
 
 
     def bindEvents(self):
@@ -52,7 +66,7 @@ class Reality:
         for i in range(0, _no_of_gen):
 
             print("Generation:", i)
-            self.top.after(900)
+            self.top.after(500)
             self.update_ViewPort()
             self.universe.update()
 
@@ -65,13 +79,10 @@ class Reality:
         self.top.update()
 
 
-    def create_liveCell(self, _cellCoord): # TODO renfactor
+    def create_liveCell(self, _cellCoord): # TODO refactor
 
-        if self.IS_INIT_STATE:
-            self.universe.create_LiveCell_if_Coord_is_Void_or_Dead(
+        self.universe.create_LiveCell_if_Coord_is_Void_or_Dead(
                           _cellCoord )
-
-        self.update_ViewPort()
 
 
 ''' END '''
