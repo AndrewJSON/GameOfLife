@@ -110,44 +110,6 @@ class ViewPort(tk.Canvas):
         return (x0, y0, x1, y1)
 
 
-# ---- ---- RUN ---- ----
-
-class ViewPortRun(ViewPort):
-
-    def __init__(self, _parent, _universe, _reality):
-        ViewPort.__init__(self, _parent, _universe, _reality)
-
-
-    def loop(self):
-
-        self.update_viewPort()
-        while(True):
-
-            self.universe.update()
-            self.update_viewPort()
-            self.after(500)
-
-
-    def switchState(self):
-        return ViewPortEdit(self.parent, self.universe, self.reality)
-
-
-# ---- ---- EDIT ---- ----
-
-class ViewPortEdit(ViewPort):
-
-
-    def __init__(self, _parent, _universe, _reality):
-
-        ViewPort.__init__(self, _parent, _universe, _reality)
-        self.bind("<Button-1>", self.create_lifeCell)
-
-
-    def loop(self):
-        self.update_viewPort()
-        self.mainloop()
-
-
     def create_lifeCell(self, _event):
 
         pxCoord = (_event.x, _event.y)
@@ -155,7 +117,7 @@ class ViewPortEdit(ViewPort):
         cellCoord = self.portCoord_to_cellCoord( portCoord )
         print("port coord:", portCoord, ", cell coord:", cellCoord, "\n")
 
-        self.reality.create_liveCell( cellCoord )
+        self.reality.create_liveCell( cellCoord ) #TODO refactor with universe
         self.update_viewPort()
 
 
@@ -168,10 +130,6 @@ class ViewPortEdit(ViewPort):
         port_y = np.floor( _pxCoord[1] / (cw + cm) )
 
         return complex(port_x, port_y)
-
-
-    def switchState(self):
-        return ViewPortRun(self.parent, self.universe, self.reality)
 
 
 ''' END '''

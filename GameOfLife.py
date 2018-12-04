@@ -42,8 +42,8 @@ if __name__ == '__main__':
 
     init_with_pattern( pt.pt1 )
 
-    myReality.runPhase()
-    #myReality.editPhase()
+    myReality.runState()
+    #myReality.editState()
 
 
 ''' END '''

@@ -11,12 +11,15 @@
 '''
 
 import ViewPort as vp
+import State as st
 
 #import matplotlib.pyplot as plt
 #import numpy as np
 
 import tkinter as tk
 import colors as col
+#import gc
+
 
 # TODO
 '''
@@ -31,32 +34,22 @@ class Reality:
         self.universe = _universe
         self.top      = tk.Tk()
         self.top.title( "Game of Life" )
-        self.viewPort = vp.ViewPortRun( self.top, _universe, self )
+        self.viewPort = vp.ViewPort( self.top, _universe, self )
         self.viewPort.pack()
 
-
-    def editPhase(self):
-
-        newPort = vp.ViewPortRun( self.top, self.universe, self )
-        self.viewPort.clear_viewPort()
-        self.viewPort.destroy()
-        self.viewPort = None
-        self.viewPort = newPort
-
-        self.viewPort.pack()
-        self.viewPort.loop()
+        self.state = None
 
 
-    def runPhase(self):
+    def editState(self):
 
-        newPort = vp.ViewPortRun( self.top, self.universe, self )
-        self.viewPort.clear_viewPort()
-        self.viewPort.destroy()
-        self.viewPort = None
-        self.viewPort = newPort
+        self.state = st.EditState( self.viewPort, self.universe )
+        self.state.loop()
 
-        self.viewPort.pack()
-        self.viewPort.loop()
+
+    def runState(self):
+
+        self.state = st.RunState( self.viewPort, self.universe )
+        self.state.loop()
 
 
     def create_liveCell(self, _cellCoord): # TODO refactor?
@@ -66,17 +59,11 @@ class Reality:
 
 
     def switchState(self, _event):
+
         print("Switch State")
-
-        newPort = self.viewPort.switchState()
-        self.viewPort.clear_viewPort()
-        self.viewPort.destroy()
-        self.viewPort = None
-        self.viewPort = newPort
-        self.viewPort.pack()
-        #self.viewport.update()
-        self.viewPort.loop()
-
+        self.state = self.state.switchState()
+        #gc.collect()
+        self.state.loop()
 
 
 ''' END '''
