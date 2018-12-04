@@ -18,6 +18,11 @@ import ViewPort as vp
 import tkinter as tk
 import colors as col
 
+# TODO
+'''
+*Implement class Reality as class Reality(TK)
+'''
+
 
 class Reality:
 
@@ -26,64 +31,52 @@ class Reality:
         self.universe = _universe
         self.top      = tk.Tk()
         self.top.title( "Game of Life" )
-        self.viewPort = vp.ViewPort( self.top, _universe, self )
+        self.viewPort = vp.ViewPortRun( self.top, _universe, self )
         self.viewPort.pack()
-        self.IS_EDIT_STATE = False
+
 
     def editPhase(self):
 
-        while (self.IS_EDIT_STATE):
-            #pass
-            self.update_ViewPort()
-            self.top.after(100)
-            #for i in range(0,10):
-            #    print("edit phase")
+        newPort = vp.ViewPortRun( self.top, self.universe, self )
+        self.viewPort.clear_viewPort()
+        self.viewPort.destroy()
+        self.viewPort = None
+        self.viewPort = newPort
 
-        self.runPhase()
+        self.viewPort.pack()
+        self.viewPort.loop()
 
 
     def runPhase(self):
 
-        self.top.update()
-        while( not self.IS_EDIT_STATE ):
+        newPort = vp.ViewPortRun( self.top, self.universe, self )
+        self.viewPort.clear_viewPort()
+        self.viewPort.destroy()
+        self.viewPort = None
+        self.viewPort = newPort
 
-            self.top.after(500)
-            self.update_ViewPort()
-            self.universe.update()
-
-        self.editPhase()
-
-
-    def bindEvents(self):
-        self.viewPort.bind("<Button-1>", self.callback)
+        self.viewPort.pack()
+        self.viewPort.loop()
 
 
-    def callback(self, _event):
-        print("callback at", _event.x, _event.y)
-
-
-    def update(self, _no_of_gen):
-
-        for i in range(0, _no_of_gen):
-
-            print("Generation:", i)
-            self.top.after(500)
-            self.update_ViewPort()
-            self.universe.update()
-
-        self.top.mainloop()
-
-
-    def update_ViewPort(self):
-
-        self.viewPort.update_viewPort()
-        #self.top.update() # FIXME
-
-
-    def create_liveCell(self, _cellCoord): # TODO refactor
+    def create_liveCell(self, _cellCoord): # TODO refactor?
 
         self.universe.create_LiveCell_if_Coord_is_Void_or_Dead(
                           _cellCoord )
+
+
+    def switchState(self, _event):
+        print("Switch State")
+
+        newPort = self.viewPort.switchState()
+        self.viewPort.clear_viewPort()
+        self.viewPort.destroy()
+        self.viewPort = None
+        self.viewPort = newPort
+        self.viewPort.pack()
+        #self.viewport.update()
+        self.viewPort.loop()
+
 
 
 ''' END '''

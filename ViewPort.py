@@ -17,19 +17,6 @@ import colors  as col
 import numpy   as np
 
 
-# TODO
-'''
-*Implement ViewPort as a state machine that returns itself as a new state:
- It calls:
-
- def reality.on_event(self, _event)
-     self.viewPort = self.viewPort.on_event( _event )
-
- https://dev.to/karn/building-a-simple-state-machine-in-python 
-
-*Implement class Reality as class Reality(TK)
-'''
-
 class ViewPort(tk.Canvas):
 
     def __init__(self, _parent, _universe, _reality):
@@ -46,10 +33,9 @@ class ViewPort(tk.Canvas):
 
         self.x_limit = 17
         self.y_limit = 17
-
         self.setSize()
-        self.bind("<Button-1>", self.eventHandler)
-        self.bind("<Button-3>", self.switchState)
+        
+        self.bind("<Button-3>", self.reality.switchState)
 
 
     def setSize(self):
@@ -124,21 +110,53 @@ class ViewPort(tk.Canvas):
         return (x0, y0, x1, y1)
 
 
-    def eventHandler(self, _event):
+# ---- ---- RUN ---- ----
 
-        if self.reality.IS_EDIT_STATE:
-            pxCoord = (_event.x, _event.y)
-            portCoord = self.pxCoord_to_portCoord( pxCoord )
-            cellCoord = self.portCoord_to_cellCoord( portCoord )
-            print("port coord:", portCoord, ", cell coord:", cellCoord, "\n")
+class ViewPortRun(ViewPort):
 
-            self.reality.create_liveCell( cellCoord )
+    def __init__(self, _parent, _universe, _reality):
+        ViewPort.__init__(self, _parent, _universe, _reality)
+
+
+    def loop(self):
+
+        self.update_viewPort()
+        while(True):
+
+            self.universe.update()
             self.update_viewPort()
+            self.after(500)
 
 
-    def switchState(self, event):
-        print("Switch State")
-        self.reality.IS_EDIT_STATE = not self.reality.IS_EDIT_STATE
+    def switchState(self):
+        return ViewPortEdit(self.parent, self.universe, self.reality)
+
+
+# ---- ---- EDIT ---- ----
+
+class ViewPortEdit(ViewPort):
+
+
+    def __init__(self, _parent, _universe, _reality):
+
+        ViewPort.__init__(self, _parent, _universe, _reality)
+        self.bind("<Button-1>", self.create_lifeCell)
+
+
+    def loop(self):
+        self.update_viewPort()
+        self.mainloop()
+
+
+    def create_lifeCell(self, _event):
+
+        pxCoord = (_event.x, _event.y)
+        portCoord = self.pxCoord_to_portCoord( pxCoord )
+        cellCoord = self.portCoord_to_cellCoord( portCoord )
+        print("port coord:", portCoord, ", cell coord:", cellCoord, "\n")
+
+        self.reality.create_liveCell( cellCoord )
+        self.update_viewPort()
 
 
     def pxCoord_to_portCoord(self, _pxCoord):
@@ -152,23 +170,8 @@ class ViewPort(tk.Canvas):
         return complex(port_x, port_y)
 
 
-if __name__ == '__main__':
-
-# TODO
-# scan all coords in view port by requesting Universe.getCellType()
-# draw rectangle for every successful return, fill col depends on cell type
-# use canvas.delete(tk.ALL) for every view port update ...
-# (... this makes GraphicsSpace obsolete as well as GraphiCell.)
-# class ViewPort(tk.Canvas):
-
-    top = tk.Tk()
-    #top.geometry("512x512")
-
-    port = ViewPort(top)
-    port.pack()
-    port.update_viewPort()
-    #port.pack()
-    top.mainloop()
+    def switchState(self):
+        return ViewPortRun(self.parent, self.universe, self.reality)
 
 
 ''' END '''

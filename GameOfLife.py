@@ -40,12 +40,10 @@ if __name__ == '__main__':
     myUniverse = un.Universe( mySpace )
     myReality  = rt.Reality( myUniverse )
 
-    init_with_pattern( pt.stabil )
+    init_with_pattern( pt.pt1 )
 
     myReality.runPhase()
-    #myReality.initPhase()
-    #myReality.update(24)
-
+    #myReality.editPhase()
 
 
 ''' END '''
