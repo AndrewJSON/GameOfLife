@@ -68,7 +68,6 @@ class ViewPort(tk.Canvas):
 
         cellCoord = self.portCoord_to_cellCoord( _portCoord )
         cellType = self.universe.getCellType( cellCoord )
-        # TODO make replace universe reference with reality
 
         if cellType:
             print("Port Coord", _portCoord,
