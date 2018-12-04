@@ -17,6 +17,19 @@ import colors  as col
 import numpy   as np
 
 
+# TODO
+'''
+*Implement ViewPort as a state machine that returns itself as a new state:
+ It calls:
+
+ def reality.on_event(self, _event)
+     self.viewPort = self.viewPort.on_event( _event )
+
+ https://dev.to/karn/building-a-simple-state-machine-in-python 
+
+*Implement class Reality as class Reality(TK)
+'''
+
 class ViewPort(tk.Canvas):
 
     def __init__(self, _parent, _universe, _reality):
@@ -50,6 +63,7 @@ class ViewPort(tk.Canvas):
 
         self.clear_viewPort()
         self.scan_Port_and_draw_Cells()
+        self.update()
 
 
     def clear_viewPort(self):

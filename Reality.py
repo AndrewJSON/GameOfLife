@@ -44,6 +44,7 @@ class Reality:
 
     def runPhase(self):
 
+        self.top.update()
         while( not self.IS_EDIT_STATE ):
 
             self.top.after(500)
@@ -76,7 +77,7 @@ class Reality:
     def update_ViewPort(self):
 
         self.viewPort.update_viewPort()
-        self.top.update()
+        #self.top.update() # FIXME
 
 
     def create_liveCell(self, _cellCoord): # TODO refactor
