@@ -9,9 +9,13 @@
  *   xxx
 '''
 
-import Universe     as un
-import ClusterSpace as cs
-import SpaceCluster as sc
+import Universe       as un
+import ClusterSpace   as cs
+import SpaceCluster   as sc
+import LifeCycler     as lc
+import EnvirCreator   as ec
+import EnvirEvaluator as ee
+
 import Reality      as rt
 import Patterns     as pt
 from Enums import *
@@ -26,8 +30,18 @@ def init_with_pattern(_pattern):
     print("Initial live cells:")
 
     for cell in _pattern:
-        myUniverse.create_LiveCell_if_Coord_is_Void_or_Dead( cell )
+        myEnvirCreator.create_initial_LiveCell( cell )
         print( cell)
+
+
+def wireUp():
+
+    myLifeCycler.setCreator( myEnvirCreator )
+    myLifeCycler.setEvaluator( myEnvirEvaluator )
+
+    myEnvirCreator.setLifeCycler( myLifeCycler )
+    myEnvirCreator.setEvaluator( myEnvirEvaluator )
+    print("wired up")
 
 
 if __name__ == '__main__':
@@ -37,10 +51,19 @@ if __name__ == '__main__':
     else:
         mySpace    = sc.SpaceCluster()
 
-    myUniverse = un.Universe( mySpace )
-    myReality  = rt.Reality( myUniverse )
 
-    init_with_pattern( pt.pt1 )
+    myLifeCycler     = lc.LifeCycler(mySpace)
+    myEnvirCreator   = ec.EnvirCreator(mySpace)
+    myEnvirEvaluator = ee.EnvirEvaluator(mySpace)
+
+    wireUp()
+
+    myUniverse = un.Universe( mySpace )
+    myReality  = rt.Reality( myUniverse,
+                             myEnvirCreator,
+                             myEnvirEvaluator )
+
+    init_with_pattern( pt.glider )
 
     myReality.runState()
     #myReality.editState()

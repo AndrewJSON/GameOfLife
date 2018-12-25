@@ -11,12 +11,8 @@
 
 from Enums import *
 
-#TODO
-#class SpaceCluster:
-#class CellSpace(SpaceCluster):
-#class GraphicSpace(SpaceCluster):
 
-# remove isClusterEmpty()
+#TODO ? remove isClusterEmpty()
 
 class SpaceCluster:
 

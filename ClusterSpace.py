@@ -20,10 +20,10 @@ import numpy as np
 
 class ClusterSpace:
 
-    def __init__(self, _clusterDimensions=None):
+    def __init__(self, _clusterSize=8):
 
         self.spaceClusters     = {}
-        self.clusterSize       = 4
+        self.clusterSize       = _clusterSize
 
         self.clusterCoords     = []
         self.cellCoords        = []
@@ -42,6 +42,10 @@ class ClusterSpace:
 
         for clusterCoord in self.clusterCoords:
             self.append_coords_or_delete_empty_cluster( clusterCoord )
+
+
+    def get_cell_count(self):
+        return len(self.cellCoords)
 
 
     def updateClusterCoords(self):

@@ -13,28 +13,19 @@
 import ViewPort as vp
 import State as st
 
-#import matplotlib.pyplot as plt
-#import numpy as np
-
 import tkinter as tk
 import colors as col
-#import gc
 
 
-# TODO
-'''
-*Implement class Reality as class Reality(TK)
-'''
+class Reality(tk.Tk):
 
+    def __init__(self, _universe, _creator, _evaluator):
 
-class Reality:
+        tk.Tk.__init__( self )
+        self.universe     = _universe
 
-    def __init__(self, _universe):
-
-        self.universe = _universe
-        self.top      = tk.Tk()
-        self.top.title( "Game of Life" )
-        self.viewPort = vp.ViewPort( self.top, _universe, self )
+        self.title( "Game of Life" )
+        self.viewPort = vp.ViewPort( self, _creator, _evaluator )
         self.viewPort.pack()
 
         self.state = None
@@ -42,27 +33,30 @@ class Reality:
 
     def editState(self):
 
-        self.state = st.EditState( self.viewPort, self.universe )
+        self.state = st.EditState( self )
         self.state.loop()
 
 
     def runState(self):
 
-        self.state = st.RunState( self.viewPort, self.universe )
+        self.state = st.RunState( self )
         self.state.loop()
 
 
-    def create_liveCell(self, _cellCoord): # TODO refactor?
+    def create_liveCell(self, _cellCoord):
+        self.envirCreator.create_initial_LiveCell( _cellCoord )
 
-        self.universe.create_LiveCell_if_Coord_is_Void_or_Dead(
-                          _cellCoord )
+    def update_viewPort(self):
+        self.viewPort.update_viewPort()
 
 
-    def switchState(self, _event):
+    def update_universe(self):
+        self.universe.update()
 
-        print("Switch State")
+
+    def switchState(self, _event):  #TODO rename to switchTimeState
+
         self.state = self.state.switchState()
-        #gc.collect()
         self.state.loop()
 
 

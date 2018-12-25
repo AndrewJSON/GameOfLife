@@ -19,23 +19,24 @@ import numpy   as np
 
 class ViewPort(tk.Canvas):
 
-    def __init__(self, _parent, _universe, _reality):
+    def __init__(self, _parent, _creator, _evaluator):
 
         super().__init__( _parent )
 
         self.parent             = _parent
-        self.universe           = _universe
-        self.reality            = _reality
+        self.envirCreator       = _creator
+        self.envirEvaluator     = _evaluator
+
         self.centerPortCoord    = (0+0j)
-        self.halfPortCoordRange = (8+8j)
+        self.halfPortCoordRange = (20+20j)
         self.cellWidth_px       = 24
         self.cellMargin_px      = 2
 
-        self.x_limit = 17
-        self.y_limit = 17
+        self.x_limit = 2 * int(self.halfPortCoordRange.real) + 1
+        self.y_limit = 2 * int(self.halfPortCoordRange.imag) + 1
         self.setSize()
         
-        self.bind("<Button-3>", self.reality.switchState)
+        self.bind("<Button-3>", self.parent.switchState)
 
 
     def setSize(self):
@@ -67,17 +68,16 @@ class ViewPort(tk.Canvas):
     def update_portCell(self, _portCoord):
 
         cellCoord = self.portCoord_to_cellCoord( _portCoord )
-        cellType = self.universe.getCellType( cellCoord )
+        cellType = self.envirEvaluator.getCellType( cellCoord )
 
         if cellType:
-            print("Port Coord", _portCoord,
-                  "Cell Coord:", cellCoord,
-                  "Type", cellType)
             self.draw_portCell( cellType, _portCoord )
 
 
     def portCoord_to_cellCoord(self, _portCoord):
-        return ( self.centerPortCoord - self.halfPortCoordRange + _portCoord )
+        return ( self.centerPortCoord
+                 - self.halfPortCoordRange
+                 + _portCoord )
 
 
     def draw_portCell(self, _cellType, _portCoord):
@@ -109,15 +109,18 @@ class ViewPort(tk.Canvas):
         return (x0, y0, x1, y1)
 
 
-    def create_lifeCell(self, _event):
+    def new_lifeCell(self, _event): # TODO
 
-        pxCoord = (_event.x, _event.y)
-        portCoord = self.pxCoord_to_portCoord( pxCoord )
-        cellCoord = self.portCoord_to_cellCoord( portCoord )
-        print("port coord:", portCoord, ", cell coord:", cellCoord, "\n")
-
-        self.reality.create_liveCell( cellCoord ) #TODO refactor with universe
+        cellCoord = self.coords_for_new_lifeCell( (_event.x, _event.y) )
+        self.envirCreator.create_initial_LiveCell( cellCoord )
         self.update_viewPort()
+
+
+    def coords_for_new_lifeCell(self, _pxCoord ):
+
+        portCoord = self.pxCoord_to_portCoord( _pxCoord )
+        cellCoord = self.portCoord_to_cellCoord( portCoord )
+        return cellCoord
 
 
     def pxCoord_to_portCoord(self, _pxCoord):
