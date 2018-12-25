@@ -26,6 +26,7 @@ SOUTHEAST = SE = ( 1 - 1j)
 
 
 directions = [E, NE, N, NW, W, SW, S, SE]
+hexDirections
 
 class CellType(Enum):     # Cell states
     LIVE       = 2

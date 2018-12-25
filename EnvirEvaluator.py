@@ -34,7 +34,7 @@ class EnvirEvaluator:
         self.lifeNeighbors = 0
 
         for spatialDirection in directions: # from Enums.py
-            neighborCoord = _coord + spatialDirection
+            neighborCoord = _coord + spatialDirection  # TODO new class
             self.sum_up_if_Neighbor_is_Live( neighborCoord )
 
         return self.lifeNeighbors

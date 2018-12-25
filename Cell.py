@@ -60,7 +60,7 @@ class LiveCell(Cell):
             self.transition = CellTransition.DYING
 
         else:
-            self.transition = CellTransition.NONE              # Conway Rule 3
+            self.transition = CellTransition.NONE      # Conway Rule 3
 
 
     def update_type(self):
