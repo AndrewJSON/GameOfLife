@@ -25,11 +25,11 @@ class Cell:
 
     def update_transition(self):
 
-        lifeNb = self.evaluator.eval_numOf_lifeNeighbors( self.coord )
-        self.transitionMethod = self.ruleMethod( lifeNb )
+        lifeNbCount = self.evaluator.eval_numOf_lifeNeighbors( self.coord )
+        self.transitionMethod = self.ruleMethod( lifeNbCount )
 
 
-    def update_type(self):
+    def update_type(self): # TODO rename to perform_transition ?
 
         if self.transitionMethod:
             self.transitionMethod( self )
