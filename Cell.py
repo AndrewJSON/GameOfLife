@@ -14,13 +14,12 @@ from Enums import *
 
 class Cell:
 
-    def __init__(self, _ruleMethod, _type, _coord, _evaluator):
+    def __init__(self, _coord, _evaluator):
 
-        self.ruleMethod = _ruleMethod
-        self.type       = _type
-        self.coord      = _coord
-        self.evaluator  = _evaluator
-
+        self.coord            = _coord
+        self.evaluator        = _evaluator
+        self.type             = None
+        self.ruleMethod       = None
         self.transitionMethod = None
 
 
@@ -34,10 +33,6 @@ class Cell:
 
         if self.transitionMethod:
             self.transitionMethod( self )
-
-
-    def avert_termination(self):
-        self.transitionMethod = None
 
 
     def getCellCoord(self):
@@ -56,58 +51,33 @@ class Cell:
 
 class LiveCell(Cell):
 
-    def __init__(self, _lifeCycler, _evaluator, _coord, _rules=None):
+
+    def __init__(self, _coord, _evaluator, _rules):
 
         Cell.__init__(  self,
-                        _lifeCycler,
-                        _evaluator,
                         _coord,
-                        CellType.LIVE,
-                        _rules )
+                        _evaluator )
 
+        self.type       = CellType.LIVE
         self.ruleMethod = _rules.liveCellRules
-
-
-    def determine_transition(self, _lifeNeighbors):
-        self.transitionMethod = self.ruleMethod( _lifeNeighbors )
-        #self.transitionMethod = self.rules.liveCellRules( _lifeNeighbors )
-
-
-    def update_type(self):
-
-        if self.transitionMethod:
-            self.transitionMethod( self )
 
 
 # ---- ---- Dead Cell ---- ----
 
 class DeadCell(Cell):
 
-    def __init__(self, _lifeCycler, _evaluator, _coord, _rules=None):
+    def __init__(self, _coord, _evaluator, _rules):
 
         Cell.__init__(  self,
-                        _lifeCycler,
-                        _evaluator,
                         _coord,
-                        CellType.DEAD,
-                        _rules )
+                        _evaluator )
 
+        self.type       = CellType.DEAD
         self.ruleMethod = _rules.deadCellRules
-
-
-    def determine_transition(self, _lifeNeighbors):
-        self.transitionMethod = self.ruleMethod( _lifeNeighbors )
-        #self.transitionMethod = self.rules.deadCellRules( _lifeNeighbors )
 
 
     def avert_termination(self):
         self.transitionMethod = None
-
-
-    def update_type(self):
-
-        if self.transitionMethod:
-            self.transitionMethod( self )
 
 
 ''' END '''
