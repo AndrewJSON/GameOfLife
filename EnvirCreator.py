@@ -45,7 +45,7 @@ class EnvirCreator:
 
         for spatialDirection in en.directions: # from Enums.py
 
-            neighborCoord = _coord + spatialDirection # TODO new class
+            neighborCoord = _coord + spatialDirection
             self.create_DeadCell_or_avert_termination( neighborCoord )
 
 
@@ -69,9 +69,17 @@ class EnvirCreator:
 
         neighborTransition = _neighborCell.getCellTransition()
 
-        if ( en.CellTransition.TERMINATE == neighborTransition ):
+        if ( self.lifeCycler.cellTermination == neighborTransition ):
             _neighborCell.avert_termination()
 
+'''
+    def avert_termination_if_scheduled(self, _neighborCell):
+
+        neighborTransition = _neighborCell.getCellTransition()
+
+        if ( en.CellTransition.TERMINATE == neighborTransition ):
+            _neighborCell.avert_termination()
+'''
 
 ''' END '''
 

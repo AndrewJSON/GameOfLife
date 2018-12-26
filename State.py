@@ -51,7 +51,7 @@ class EditState(State):
 
     def loop(self):
 
-        self.reality.update_viewPort()
+        #self.reality.update_viewPort()
         self.reality.mainloop()
 
 

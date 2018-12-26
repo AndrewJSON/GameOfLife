@@ -19,6 +19,7 @@ class LifeCycler:
         self.space        = _space
         self.envirCreator = None
         self.evaluator    = None
+        self.rules        = None
 
 
     def setCreator(self, _ec):
@@ -29,19 +30,25 @@ class LifeCycler:
         self.evaluator = _ev
 
 
+    def setRules(self, _rules):
+        self.rules = _rules
+
+
     def createLiveCell(self, _coord):
-        return cl.LiveCell( self, self.evaluator, _coord )
+        return cl.LiveCell( self, self.evaluator, _coord, self.rules )
 
 
     def createDeadCell(self, _coord):
-        return cl.DeadCell( self, self.evaluator, _coord )
+        return cl.DeadCell( self, self.evaluator, _coord, self.rules )
 
 
     def cellBirth(self, _deadCell):
 
-        newLiveCell = self.createLiveCell( _deadCell.coord )
+        deadCellCoord = _deadCell.getCellCoord()
+        newLiveCell = self.createLiveCell( deadCellCoord )
+
         self.space.placeCell( newLiveCell )
-        self.envirCreator.create_surrounding_DeadCells( _deadCell.coord )
+        self.envirCreator.create_surrounding_DeadCells( deadCellCoord )
 
 
     def cellDeath(self, _liveCell):

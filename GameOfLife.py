@@ -15,6 +15,7 @@ import SpaceCluster   as sc
 import LifeCycler     as lc
 import EnvirCreator   as ec
 import EnvirEvaluator as ee
+import Rules          as rl
 
 import Reality      as rt
 import Patterns     as pt
@@ -38,6 +39,7 @@ def wireUp():
 
     myLifeCycler.setCreator( myEnvirCreator )
     myLifeCycler.setEvaluator( myEnvirEvaluator )
+    myLifeCycler.setRules( myRules )
 
     myEnvirCreator.setLifeCycler( myLifeCycler )
     myEnvirCreator.setEvaluator( myEnvirEvaluator )
@@ -55,6 +57,7 @@ if __name__ == '__main__':
     myLifeCycler     = lc.LifeCycler(mySpace)
     myEnvirCreator   = ec.EnvirCreator(mySpace)
     myEnvirEvaluator = ee.EnvirEvaluator(mySpace)
+    myRules          = rl.Rules(myLifeCycler)
 
     wireUp()
 

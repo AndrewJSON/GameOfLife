@@ -1,6 +1,6 @@
 
 ''' 
- * SpacialRules.py
+ * Rules.py
  *
  *   Created on:         25.12.2018
  *   last modified on:   -
@@ -10,45 +10,34 @@
  *   xxx
 '''
 
-import LifeCycler     as lc
+import LifeCycler as lc
 
 
-class CellTransition(Enum):     # Cell transitions
-    NONE       = 0
-    EMERGENT   = 1
-    DYING      = 3
-    TERMINATE  = 5
-
-
-class SpacialRules:
+class Rules:
 
     def __init__(self, _lifeCycler):
         self.lifeCycler = _lifeCycler
 
 
-    def getCoordInDirection(self, _direction):
-        pass
+    def liveCellRules(self, _lifeNeighborCount):
 
-
-    def deathCondition(self, _lifeNeighborCount):
-
-        if (2 > _lifeNeighbors or 3 < _lifeNeighbors):  # Conway Rule 2&4
+        # Conway Rules 2&4
+        if (2 > _lifeNeighborCount or 3 < _lifeNeighborCount):
             return self.lifeCycler.cellDeath
 
+        # Conway Rule 3
         else:
-            return None                                 # Conway Rule 3
+            return None
 
 
-    def persistensCondition(self, _lifeNeighborCount):
-        pass
+    def deadCellRules(self, _lifeNeighborCount):
 
-
-    def birthOrTerminationCondition(self, _lifeNeighborCount):
-
-        if   3 == _lifeNeighbors :                      # Conway Rule 1
+        # Conway Rule 1
+        if   3 == _lifeNeighborCount:
             return self.lifeCycler.cellBirth
 
-        elif 0 == _lifeNeighbors :                      # free memory
+        # free memory
+        elif 0 == _lifeNeighborCount :
             return self.lifeCycler.cellTermination
 
         else:
