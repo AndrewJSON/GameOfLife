@@ -35,11 +35,19 @@ class LifeCycler:
 
 
     def createLiveCell(self, _coord):
-        return cl.LiveCell( self, self.evaluator, _coord, self.rules )
+
+        return cl.Cell( self.rules.liveCellRules,
+                        CellType.LIVE,
+                        _coord,
+                        self.evaluator )
 
 
     def createDeadCell(self, _coord):
-        return cl.DeadCell( self, self.evaluator, _coord, self.rules )
+
+        return cl.Cell( self.rules.deadCellRules,
+                        CellType.DEAD,
+                        _coord,
+                        self.evaluator )
 
 
     def cellBirth(self, _deadCell):

@@ -14,23 +14,30 @@ from Enums import *
 
 class Cell:
 
-    def __init__(self, _lifeCycler, _evaluator, _coord, _type, _rules=None):
+    def __init__(self, _ruleMethod, _type, _coord, _evaluator):
 
-        self.lifeCycler    = _lifeCycler
-        self.evaluator     = _evaluator
-        self.coord         = _coord
-        self.type          = _type
-        self.transition    = CellTransition.NONE
-        self.rulesMethod   = None
+        self.ruleMethod = _ruleMethod
+        self.type       = _type
+        self.coord      = _coord
+        self.evaluator  = _evaluator
+
         self.transitionMethod = None
-        self.rules         = _rules
 
 
     def update_transition(self):
 
         lifeNb = self.evaluator.eval_numOf_lifeNeighbors( self.coord )
-        self.transitionMethod = self.rulesMethod( lifeNb )
-        #self.determine_transition( lifeNb )
+        self.transitionMethod = self.ruleMethod( lifeNb )
+
+
+    def update_type(self):
+
+        if self.transitionMethod:
+            self.transitionMethod( self )
+
+
+    def avert_termination(self):
+        self.transitionMethod = None
 
 
     def getCellCoord(self):
@@ -43,7 +50,6 @@ class Cell:
 
     def getCellTransition(self):
         return self.transitionMethod
-        #return self.transition
 
 
 # ---- ---- Live Cell ---- ----
@@ -59,11 +65,11 @@ class LiveCell(Cell):
                         CellType.LIVE,
                         _rules )
 
-        self.rulesMethod = _rules.liveCellRules
+        self.ruleMethod = _rules.liveCellRules
 
 
     def determine_transition(self, _lifeNeighbors):
-        self.transitionMethod = self.rulesMethod( _lifeNeighbors )
+        self.transitionMethod = self.ruleMethod( _lifeNeighbors )
         #self.transitionMethod = self.rules.liveCellRules( _lifeNeighbors )
 
 
@@ -86,11 +92,11 @@ class DeadCell(Cell):
                         CellType.DEAD,
                         _rules )
 
-        self.rulesMethod = _rules.deadCellRules
+        self.ruleMethod = _rules.deadCellRules
 
 
     def determine_transition(self, _lifeNeighbors):
-        self.transitionMethod = self.rulesMethod( _lifeNeighbors )
+        self.transitionMethod = self.ruleMethod( _lifeNeighbors )
         #self.transitionMethod = self.rules.deadCellRules( _lifeNeighbors )
 
 
