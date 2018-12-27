@@ -16,6 +16,7 @@ import LifeCycler     as lc
 import EnvirCreator   as ec
 import EnvirEvaluator as ee
 import Rules          as rl
+import CellFactory    as cf
 
 import Reality      as rt
 import Patterns     as pt
@@ -37,10 +38,10 @@ def init_with_pattern(_pattern):
 
 def wireUp():
 
+    myLifeCycler.setCellFactory( myCellFactory )
     myLifeCycler.setCreator( myEnvirCreator )
-    myLifeCycler.setEvaluator( myEnvirEvaluator )
-    myLifeCycler.setRules( myRules )
 
+    myEnvirCreator.setCellFactory( myCellFactory )
     myEnvirCreator.setLifeCycler( myLifeCycler )
     myEnvirCreator.setEvaluator( myEnvirEvaluator )
     print("wired up")
@@ -58,6 +59,7 @@ if __name__ == '__main__':
     myEnvirCreator   = ec.EnvirCreator(mySpace)
     myEnvirEvaluator = ee.EnvirEvaluator(mySpace)
     myRules          = rl.Rules(myLifeCycler)
+    myCellFactory    = cf.CellFactory(myEnvirEvaluator, myRules)
 
     wireUp()
 

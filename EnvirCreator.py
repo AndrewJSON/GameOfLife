@@ -9,23 +9,23 @@
  *   xxx
 '''
 
-import Cell  as cl
 import Enums as en
-#from Enums import *
 
 
 class EnvirCreator:
 
     def __init__(self, _space):
 
-        self.space      = _space
-        self.lifeCycler = None
-        self.evaluator  = None
+        self.space       = _space
+        self.cellFactory = None
+        self.lifeCycler  = None
+        self.evaluator   = None
 
+    def setCellFactory(self, _cf):
+        self.cellFactory = _cf
 
     def setLifeCycler(self, _lc):
         self.lifeCycler = _lc
-
 
     def setEvaluator(self, _ev):
         self.evaluator = _ev
@@ -36,7 +36,7 @@ class EnvirCreator:
         cellType = self.evaluator.getCellType( _coord )
 
         if (None == cellType or en.CellType.DEAD == cellType):
-            newLiveCell = self.lifeCycler.createLiveCell( _coord )
+            newLiveCell = self.cellFactory.createLiveCell( _coord )
             self.space.placeCell( newLiveCell )
             self.create_surrounding_DeadCells( _coord )
 
@@ -61,7 +61,7 @@ class EnvirCreator:
 
     def create_DeadCell_at_Coord(self, _coord):
 
-        newDeadCell = self.lifeCycler.createDeadCell( _coord )
+        newDeadCell = self.cellFactory.createDeadCell( _coord )
         self.space.placeCell( newDeadCell )
 
 
@@ -72,14 +72,6 @@ class EnvirCreator:
         if ( self.lifeCycler.cellTermination == neighborTransition ):
             _neighborCell.avert_termination()
 
-'''
-    def avert_termination_if_scheduled(self, _neighborCell):
-
-        neighborTransition = _neighborCell.getCellTransition()
-
-        if ( en.CellTransition.TERMINATE == neighborTransition ):
-            _neighborCell.avert_termination()
-'''
 
 ''' END '''
 

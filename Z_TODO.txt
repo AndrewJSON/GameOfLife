@@ -5,3 +5,4 @@ whats the meaning of update_type after introducing Rules.py?
  -> life cycler could change the rules and type instance variables
     -> coudl lead to violation of access rules, better replace as done before
 implement Direction class
+Enums as en in EnvirEvaluator

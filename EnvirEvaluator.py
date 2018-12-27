@@ -9,7 +9,8 @@
  *   xxx
 '''
 
-from Enums import *
+import Enums as en # TODO obsolete with Directions class
+
 
 class EnvirEvaluator:
 
@@ -33,7 +34,7 @@ class EnvirEvaluator:
 
         self.lifeNeighbors = 0
 
-        for spatialDirection in directions: # from Enums.py
+        for spatialDirection in en.directions: # from Enums.py
             neighborCoord = _coord + spatialDirection  # TODO new class
             self.sum_up_if_Neighbor_is_Live( neighborCoord )
 
@@ -44,7 +45,7 @@ class EnvirEvaluator:
 
         neighborType = self.getCellType( _neighborCoord )
 
-        if CellType.LIVE == neighborType:
+        if en.CellType.LIVE == neighborType:
             self.lifeNeighbors += 1
 
 
